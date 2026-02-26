@@ -131,3 +131,7 @@ class DQNAgent:
         self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
         self.epsilon = checkpoint['epsilon']
         return checkpoint['episode'], checkpoint['total_steps']
+    
+    def load(self, path):
+        self.network.load_state_dict(torch.load(path, map_location=self.device))
+        self.target_network.load_state_dict(self.network.state_dict())

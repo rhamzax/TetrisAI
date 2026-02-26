@@ -27,7 +27,7 @@ def main():
     total_steps = 0
     start_episode = 0
     try:
-        agent.load_checkpoint("pong_model_ep300.pt")
+        start_episode, total_steps = agent.load_checkpoint("pong_model_ep400.pt")
         print("Model loaded from pong_model.pt!")
     except FileNotFoundError:
         print("No saved model found. Starting from scratch.")
@@ -78,6 +78,10 @@ def main():
                 agent.update_target_network()
         
         episode_rewards.append(episode_reward)
+
+        # Generate the graph!
+        plot_rewards(episode_rewards, window=50)
+
         print(f"Episode {episode+1}/500: Reward={episode_reward}, Epsilon={agent.epsilon:.3f}, Total Steps={total_steps}")
     
     print(f"Training complete. Average reward (last 10): {np.mean(episode_rewards[-10:]):.2f}")
